@@ -1,34 +1,32 @@
-	;; 0x0e in AH sets INT 10H into "Teletype output" mode
-	mov ah, 0x0e
-	mov al, 'H'
-	;; Call Interupt INT 10H
-	int 0x10
-	mov al, 'e'
-	int 0x10
-	mov al, 'l'
-	int 0x10
-	mov al, 'l'
-	int 0x10
-	mov al, 'o'
-	int 0x10
-	mov al, ' '
-	int 0x10
-	mov al, 'W'
-	int 0x10
-	mov al, 'o'
-	int 0x10
-	mov al, 'r'
-	int 0x10
-	mov al, 'l'
-	int 0x10
-	mov al, 'd'
-	int 0x10
-	mov al, '!'
-	int 0x10
+[org 0x7c00]
 
-	;; Halt
+init:
+	mov si, STR
+	call printstr
+halt:
 	jmp $
 
-	;;  Pad to 512 with bootable flag.
+;;; String literal with null
+STR:	db "Hello, world!",0
+
+;;; Print string function
+printstr:
+	pusha
+	;; 0x0e in AH sets INT 10H into "Teletype output" mode
+	mov ah,0x0e
+str_loop:
+	mov al, [si]
+	cmp al, 0
+	jne print_char
+str_end:
+	popa
+	ret
+print_char:
+	;; Call Interupt INT 10H
+	int 0x10
+	add si, 1
+	jmp str_loop
+
+;;; Padd to 510 with bootsector magic
 	times 510-($-$$) db 0
 	dw 0xaa55
