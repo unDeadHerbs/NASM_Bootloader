@@ -1,16 +1,8 @@
-[org 0x7c00]
-
-init:
-	mov si, STR
-	call printstr
-halt:
-	jmp $
-
-;;; String literal with null
-STR:	db "Hello, world!",0
+;;; -*- mode: nasm -*-
 
 ;;; Print string function
-printstr:
+;; Params: si = null terminated string pointer
+printf:
 	pusha
 	;; 0x0e in AH sets INT 10H into "Teletype output" mode
 	mov ah,0x0e
@@ -27,6 +19,3 @@ print_char:
 	add si, 1
 	jmp str_loop
 
-;;; Padd to 510 with bootsector magic
-	times 510-($-$$) db 0
-	dw 0xaa55
