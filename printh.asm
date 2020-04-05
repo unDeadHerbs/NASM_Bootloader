@@ -1,3 +1,5 @@
+;;; -*- mode: nasm -*-
+
 ;;; Print Hex number
 ;;  Params: dx = Number to print
 printh:
@@ -54,3 +56,4 @@ printh:
 STR_HEX_PATTERN:	db "0x"
 STR_HEX_DIGS:	db "****",0
 STR_HEX_TABLE:	db"0123456789ABCDEF"
+STR_NEW_LINE:	db 0x0a,0x0d,0

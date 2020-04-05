@@ -24,4 +24,5 @@ load_disk:
 load_disk_err:
 	mov si, STR_DISK_ERR
 	call printf
-	jmp halt
+	jmp $
+STR_DISK_ERR:	db "Error loading Disk.",0x0a,0x0d,0

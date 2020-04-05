@@ -4,7 +4,7 @@ SRCS   := $(wildcard *.asm)
 
 %.bin: %.asm
 %.bin: %.asm $(DEPDIR)/%.d | $(DEPDIR)
-	nasm -M $< | head -1 | sed 's,\([^ ]*\),\1.bin,' > $(DEPDIR)/$*.d
+	nasm -M $< -o $@ > $(DEPDIR)/$*.d
 	nasm -fbin $< -o $@
 
 .PHONY: %.run
