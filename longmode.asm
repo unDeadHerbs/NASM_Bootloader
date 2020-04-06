@@ -32,6 +32,6 @@ assert_longmode:
 	ret
 long_mode_fail:
 	mov si, STR_NO_LM
-	call printf
+	call printerr
 	jmp $
-STR_NO_LM:	db "Long mode not detected.",0x0a,0x0d,0
+STR_NO_LM:	db "Longmode Missing",0

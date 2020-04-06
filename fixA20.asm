@@ -19,9 +19,8 @@ fixA20_t_en_true:
 	stc
 	ret
 fixA20_t_cont:
-	mov bx,fixA20_testA20enabled ; Again with second test position
-	mov ax,[bx]
-	add bx,0x0010
+	mov bx,fixA20_testA20enabled+0x0010 ; Again with second test position
+	mov ax,[fixA20_testA20enabled]
 	mov dx,[es:bx]
 	cmp ax,dx
 	jne fixA20_t_en_true
@@ -61,12 +60,12 @@ fixA20:
 
 fixA20_fail:
 	mov si,STR_A20_FAIL
-	call printf
-	jmp $	
+	call printerr
+	jmp $
+STR_A20_FAIL:	db "Enabling A20",0
 fixA20_done:
 	popa
 	ret
-STR_A20_FAIL:	db "Failed to enable A20.",0x0a,0x0d,0
 
 
 Keyboard_Set_Flag:
