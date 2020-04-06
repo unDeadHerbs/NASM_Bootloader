@@ -39,7 +39,7 @@ init:
 	mov si, STR_HELLO
 	call printf
 
-	jmp $
+	jmp kernel
 
 STR_HELLO:	db "Hello, world!",0x0a,0x0d,0
 
@@ -49,12 +49,13 @@ STR_HELLO:	db "Hello, world!",0x0a,0x0d,0
 %include "fixA20.asm"
 %include "longmode.asm"
 
-;;; Pad to 510 with 2 bytes of bootsector magic
-	times 510-($-$$) db 0
+;;; Pad to sector size with 2 bytes of bootsector magic
+	times 0x200-($-$$)-2 db 0
 	dw 0xaa55
+kernel:
 
+%include "kernel.asm"
 
-;;; Now in second sector
 ;;; fill out the sector
-	;; Ignore the jank
-	times 512-($-$$-512) db 0
+	;; Note, this will throw when sector 2 is too big.
+	times 2*0x200-($-$$) hlt
