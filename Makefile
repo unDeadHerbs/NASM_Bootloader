@@ -24,6 +24,8 @@ all: bootloader.bin
 .PHONY: %.watch
 %.watch: $(SRCS)
 	while true; do inotifywait $^; sleep 1; make $*.run; done
+.PHONY: IDE
+IDE: bootloader.watch
 
 # Maybe needed later if working on virtualbox
 %.bin.1200k: %.bin
@@ -31,6 +33,10 @@ all: bootloader.bin
 	truncate $@ -s 1200k
 %.iso: %.bin.1200k
 	mkisofs -o $@ -b $^ ./
+
+clean:
+	-rm -f *.obj
+	-rm bootloader.bin
 
 # Track Dependencies
 $(DEPDIR): ; @mkdir -p $@
