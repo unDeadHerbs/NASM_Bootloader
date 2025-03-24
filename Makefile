@@ -19,7 +19,7 @@ all: bootloader.bin
 
 .PHONY: %.run
 %.run: %.bin
-	qemu-system-x86_64 -curses $^ &
+	qemu-system-x86_64 -display curses $^ &
 	sleep 5 && pkill qemu
 .PHONY: %.watch
 %.watch: $(SRCS)
